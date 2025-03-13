@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>猜数游戏</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script>
+    <style>
+        /* 通用样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        #app {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 480px) {
+            input {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p><input type="number" placeholder="请输入1-100之间的数字" v-model="guessed"></p>
+        <p>{{ result }}</p>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                guessed: '',
+                key: 0
+            },
+            methods: {
+                setKey() {
+                    this.key = Math.floor(Math.random() * 100) + 1; // 修正随机数生成逻辑
+                    console.log("生成的数字是：" + this.key); // 调试用
+                }
+            },
+            mounted() {
+                this.setKey();
+            },
+            computed: {
+                result() {
+                    const value = parseInt(this.guessed);
+                    if (isNaN(value)) {
+                        return '请输入1-100之间的整数';
+                    }
+                    if (value === this.key) {
+                        return '恭喜你，猜对了！';
+                    }
+                    if (value > this.key) {
+                        return '太大了！';
+                    } else {
+                        return '太小了！';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
